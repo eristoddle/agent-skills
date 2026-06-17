@@ -1,0 +1,9 @@
+.DS_Store
+**/.DS_Store
+Thumbs.db
+
+# skillshare sync bookkeeping (kept locally, not published)
+skills/.skillshare-manifest.json
+
+# skill runtime state / personal history (synced locally, never published)
+**/hardening-log.jsonl

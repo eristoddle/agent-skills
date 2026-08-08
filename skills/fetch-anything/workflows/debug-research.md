@@ -5,7 +5,9 @@ The anti-"it's impossible" workflow. Triggered when every available rung or hand
 **Inputs:** the URL, the extraction hint (if any), and the full error log from the failed ladder/handler.
 **Prerequisites:** none.
 
-Read `references/tool-cheatsheet.md` (failure-signal definitions) and `references/handler-registry.md` (so a proposal slots into the real extension point).
+Read `references/tool-cheatsheet.md` (failure-signal definitions, plus the **debug-research toolbox** section at the bottom) and `references/handler-registry.md` (so a proposal slots into the real extension point).
+
+**You own the ex-rungs.** playwright-cli, WebFetch, and browser-act used to sit in the ladder and were removed because trying them by rote rarely helped. They live in the cheatsheet's toolbox section now and are yours to select — but only **on a diagnosis** that names why this specific tool addresses this specific failure (see Step 2). Reaching for one without that reasoning just recreates the old five-rung ladder.
 
 ---
 
@@ -14,7 +16,7 @@ Read `references/tool-cheatsheet.md` (failure-signal definitions) and `reference
 **Goal:** Name the real failure mode, not a vague one.
 
 1. Read the error log. Classify what actually happened using the cheatsheet's signal categories: HTTP block (403/429/503), JS-required shell, paywall/consent gate, CAPTCHA/bot challenge, or plain tool error/timeout.
-2. State the diagnosis in one line. The fix depends on the category — a 429 is a rate-limit (slow down / change UA), a JS-shell is a render problem (already tried playwright → look for an API), a paywall is a content-gate (look for archive/print/AMP/API).
+2. State the diagnosis in one line. The fix depends on the category — a 429 is a rate-limit (slow down / change UA), a JS-shell is a render problem (crawl4ai and firecrawl both already rendered it → look for an API instead), a paywall is a content-gate (look for archive/print/AMP/API), a CAPTCHA is the one case that genuinely needs browser-act.
 
 **Output:** a one-line diagnosis naming the category.
 
@@ -29,7 +31,8 @@ Read `references/tool-cheatsheet.md` (failure-signal definitions) and `reference
 - **Alternate host / cached copy.** `old.` subdomains, `m.` mobile, AMP pages, print views, Google cache, the Wayback Machine (`web.archive.org`), text-only mirrors.
 - **Header / UA / cookie tweak.** A descriptive User-Agent, an `Accept` header, a referer, or a consent cookie often clears a soft block.
 - **Rate-limit handling.** For 429s: back off, slow the request rate, or rotate UA.
-- **Proxy / residential egress.** Last resort for hard IP blocks — note it as a future capability if nothing else works (this is a known planned extension, not yet built).
+- **Proxy / residential egress.** For hard IP blocks. The ladder should already have tried `firecrawl --proxy auto` — check the log. If it didn't, that's the cheapest next move.
+- **A toolbox tool, on a diagnosis.** `playwright-cli` when the evidence says the site blocks patchright but not stock Chromium; `browser-act` when there's an actual CAPTCHA to solve or the user needs to take the wheel. Name the reason before reaching.
 
 Run the searches. Read what real people did. Do not conclude "impossible" until you've actually looked.
 

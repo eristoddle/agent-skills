@@ -1,11 +1,24 @@
 # Fetch Ladder
 
-Generic escalation for any URL with no registered custom handler. Climbs defuddle → webfetch → crawl4ai → playwright-cli → browser-act, stopping at the first rung that returns real content. On total failure, hands off to debug-research.
+Generic escalation for any URL with no registered custom handler. Three rungs:
+**defuddle → crawl4ai → firecrawl**, stopping at the first that returns real content.
+On total failure, hands off to debug-research.
 
 **Inputs:** a URL; optionally an extraction hint ("just the comments", "the price table").
-**Prerequisites:** none. Each rung self-checks its tool's availability.
+**Prerequisites:** none for rungs 1–2. Rung 3 needs `firecrawl` installed + an API key.
 
-Read `references/tool-cheatsheet.md` before starting — it has the exact invocations and the failure-signal patterns that decide when to climb. Maintain the running error log described there across all rungs.
+Read `references/tool-cheatsheet.md` before starting — it has the exact invocations
+and the failure-signal patterns that decide when to climb. Maintain the running error
+log described there across all rungs.
+
+**Why these three.** Months of real use settled it: crawl4ai has by far the highest
+success rate, so it sits early rather than buried at rung 3 of 5. defuddle stays first
+purely on token economy — when it works it's the cheapest thing available. firecrawl is
+the paid backstop that handles what a local browser can't. The rungs that used to sit
+between them (webfetch, playwright-cli, browser-act) never earned their place: webfetch
+fails on exactly the pages defuddle fails on, and the browser rungs were redundant with
+crawl4ai. They aren't gone — they moved to `debug-research.md`'s toolbox, where a
+diagnosis picks them deliberately instead of the ladder trying them by rote.
 
 ---
 
@@ -16,84 +29,73 @@ Read `references/tool-cheatsheet.md` before starting — it has the exact invoca
 1. Confirm the binary exists (`defuddle --version`). If missing, log "binary missing" and skip to Step 2.
 2. Run defuddle on the URL per the cheatsheet.
 3. Evaluate the output against the failure signals in the cheatsheet.
-4. If it returned real content → go to Step 6 (Deliver). Otherwise append the result to the error log and go to Step 2.
+4. If it returned real content → go to Step 4 (Deliver). Otherwise append the result to the error log and go to Step 2.
+
+Don't spend more than one attempt here. defuddle either cleanly gets the article or it
+doesn't — retrying with different flags is wasted time, climb instead.
 
 **Output:** clean markdown (success) or an appended error-log line (failure).
 
 ---
 
-## Step 2 — Rung 2: webfetch
+## Step 2 — Rung 2: crawl4ai (stealth browser) — the workhorse
 
-**Goal:** Let the native fetch tool try, with an extraction prompt.
+**Goal:** Render with an anti-bot-aware browser. This rung defeats JS-shells, soft
+blocks, and most bot challenges, and in practice succeeds more often than any other
+rung in this skill.
 
-1. Call WebFetch with the URL and a prompt: the user's hint if given, else "Return the main readable content as markdown."
-2. Evaluate against the failure signals.
-3. If real content → go to Step 6 (Deliver). Otherwise append to the error log and go to Step 3.
-
-**Output:** content (success) or an appended error-log line (failure).
-
----
-
-## Step 3 — Rung 3: crawl4ai (stealth browser)
-
-**Goal:** Render with an anti-bot-aware browser to defeat JS-shells, soft blocks, and bot challenges that plain playwright can't pass.
-
-1. Confirm `crawl4ai` is available (`python -c "import crawl4ai"`). If missing: `pip install crawl4ai && crawl4ai-setup`. Log and skip to Step 4 if setup fails.
+1. Confirm `crawl4ai` is available (`python -c "import crawl4ai"`). If missing: `pip install crawl4ai && crawl4ai-setup`. Log and skip to Step 3 if setup fails.
 2. Run using the pattern from the cheatsheet (magic mode + simulate_user).
 3. Evaluate the output against the failure signals.
-4. If real content → go to Step 6 (Deliver). Otherwise append to the error log and go to Step 4.
+4. If real content → go to Step 4 (Deliver). Otherwise append to the error log and go to Step 3.
+
+Because this rung carries the ladder, it's worth **one** retry before climbing when the
+failure looks transient rather than structural — a timeout or `networkidle` that never
+settled. Retry with `wait_until="domcontentloaded"` and a longer `page_timeout`. A 403
+or a captcha is structural: don't retry, climb.
 
 **Output:** content (success) or an appended error-log line (failure).
 
 ---
 
-## Step 4 — Rung 4: playwright-cli
+## Step 3 — Rung 3: firecrawl (paid API backstop)
 
-**Goal:** Plain browser render — use when crawl4ai specifically fails (e.g., site blocks patchright but not stock Chromium).
+**Goal:** Hand the page to a hosted service with its own proxy pool and rendering
+infrastructure — the things a local browser can't provide.
 
-1. Use the `playwright-cli` skill to render the page and dump HTML (cheatsheet has the pattern).
-2. Feed the dumped HTML back through `defuddle parse page.html --md` to get token-cheap markdown.
-3. Evaluate against the failure signals.
-4. If real content → go to Step 6 (Deliver). Otherwise append to the error log and go to Step 5.
+1. Confirm the CLI exists (`firecrawl --version`). If missing, log "firecrawl missing" and skip to Step 5.
+2. Run the scrape per the cheatsheet, **always with `-o` to a file** — never let a full
+   page render into the transcript.
+3. Read a bounded slice of the output file to evaluate it against the failure signals.
+4. If still blocked, retry **once** with `--proxy auto` (firecrawl's own escalation — it
+   costs more credits, so it's a deliberate second attempt, not the default).
+5. If real content → go to Step 4 (Deliver). Otherwise append to the error log and go to Step 5.
 
-**Output:** content (success) or an appended error-log line (failure).
-
----
-
-## Step 5 — Rung 5: browser-act (UNTESTED — last resort before debug-research)
-
-**Goal:** Throw the heaviest available tool at the page: an anti-detection browser with captcha bypass, optional proxies, persistent sessions, and human-in-the-loop assist — the things crawl4ai and playwright-cli can't do.
-
-⚠️ **This rung is UNTESTED in this skill.** It only runs after every proven rung above has failed. If it errors or behaves unexpectedly, don't fight it — log the result and fall through to debug-research (Step 7). Read `references/browser-act.md` before invoking; that file has the mandatory bootstrap, the exact commands, and the Confirmation Gate rules (browser-act requires explicit user approval before creating a browser or doing anything sensitive).
-
-1. Confirm the CLI exists (`browser-act --version`). If missing, log "browser-act missing" and skip to Step 7.
-2. Run the **mandatory bootstrap** first: `browser-act get-skills core --skill-version 2.0.2` (do NOT skip or truncate — it carries operational directives). Follow `references/browser-act.md`.
-3. Try the cheap path first: `browser-act stealth-extract "<URL>"` (no session, no browser creation, no confirmation needed).
-4. If that's still blocked and the content is worth a full session, escalate **within browser-act** to a real browser session — but only with user confirmation per the Confirmation Gate (captcha solving via `solve-captcha`, or `remote-assist` to hand the user the wheel).
-5. Evaluate against the failure signals.
-6. If real content → go to Step 6 (Deliver), noting it came from the untested rung. If this rung also fails, append to the error log and go to Step 7.
+This rung costs money per call. That's the reason it's last, and the reason rungs 1–2
+get a genuine attempt first rather than a token one.
 
 **Output:** content (success) or an appended error-log line (failure).
 
 ---
 
-## Step 6 — Deliver
+## Step 4 — Deliver
 
 **Goal:** Hand the user usable content.
 
 1. Return the markdown. If an extraction hint was given, narrow to what they asked for; otherwise give the full clean article.
-2. Briefly note which rung succeeded only if it's interesting (e.g. "defuddle was blocked, got it via crawl4ai"; always flag it if the untested browser-act rung was what worked, so the user knows). Don't narrate on a clean first-rung success.
+2. Note which rung succeeded only if it's interesting — e.g. "defuddle was blocked, got it via crawl4ai", or always when firecrawl was what worked, since that one bills the user.
+3. Don't narrate a clean first-rung success.
 
 **Output:** final content to the user. Workflow ends here.
 
 ---
 
-## Step 7 — Escalate to debug-research
+## Step 5 — Escalate to debug-research
 
 **Goal:** Refuse to quit.
 
 1. Do NOT tell the user it's impossible.
-2. Read `workflows/debug-research.md` and follow it, passing the URL, the extraction hint, and the full error log.
+2. Read `workflows/debug-research.md` and follow it, passing the URL, the extraction hint, and the full error log. Its toolbox includes playwright-cli and browser-act — the ex-rungs — plus hidden APIs, alternate hosts, and archives.
 
 **Output:** control passes to debug-research.
 

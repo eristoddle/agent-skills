@@ -10,7 +10,7 @@ Domain → custom-handler lookup. The router reads this at intake. If the target
 
 | match (host contains) | handler file | why it needs special handling |
 |---|---|---|
-| `reddit.com`, `redd.it` | `workflows/handlers/reddit.md` | HTML is JS-rendered and rate-limited; tries `.json` endpoint first (often 403 now), then crawl4ai stealth browser on old.reddit.com. |
+| `reddit.com`, `redd.it` | `workflows/handlers/reddit.md` | HTML is JS-rendered and IP-rate-limited; tries `.json` endpoint first (often 403 now), then crawl4ai stealth browser on old.reddit.com, then firecrawl. All render paths rewrite to `old.reddit.com`. |
 
 ---
 

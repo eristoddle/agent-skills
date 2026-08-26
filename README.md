@@ -45,6 +45,12 @@ Turns a known URL into clean markdown, and refuses to accept "this page can't be
 
 **Reach for it when:** a page blocks you, a plain fetch returns junk, or you need a known URL turned into usable content while you're in the middle of something else.
 
+### [living-plan](./skills/living-plan)
+
+Owns the whole lifecycle of a project's planning docs: a hot, lean `PLAN.md` that's cheap enough to carry every session, a `TASKS.md` handoff contract, and an implementer agent that works the queue. It detects which state your project is in and routes to one of five actions. Four of them reshape what's already there — **scaffold** a fresh project, **adopt** the missing pieces into one that already half-does this, **rebalance** a bloated plan by relocating cooled material (old session logs, settled decisions, futures, reference) into linked `docs/` files and leaving one-line pointers behind, **evict** the finished task queues out of a `TASKS.md` that's quietly become an append-only log. The fifth, **grill**, is different in kind: it interviews you round by round until the design tree has actually been visited, and writes the answers into the decision record. That's the one that fixes the real failure — a decision record that records nothing, because scaffolding a project asks "what is this?" once and then never asks again. Greenfield now runs grill first, so the plan is born populated. It's portable across projects and tolerant of naming variance (`TASKS.md` vs `TASK.md`, `CLAUDE.md` vs `AGENTS.md`), every mutating step is propose-then-confirm with a manifest, and the process itself lazy-loads out of `workflows/` so the planning agent stays light. Formerly named `plan-rebalance`; that name still routes here.
+
+**Reach for it when:** `PLAN.md` has gotten heavy to read every session, `TASKS.md` is 90% checked boxes, you're starting something and don't know its shape yet, or you want someone to poke holes in a design before you build it.
+
 ### [skill-hardener](./skills/skill-hardener)
 
 Mines your recent Claude Code transcripts for the mistakes your agent keeps making, traces each pattern back to the skill (or `CLAUDE.md` rule) responsible, and writes a targeted guardrail plus a regression test that proves the fix and catches the backslide. It's the diagnostic complement to a skill *creator*: it decides what to harden and why, using evidence from sessions you actually ran instead of your guess about what went wrong.
@@ -65,7 +71,7 @@ A skill version of the [Verbalized Sampling](https://www.verbalized-sampling.com
 
 ## Requirements
 
-Three of these are pure-prompt skills with no external dependencies: drop the folder in and they work.
+Four of these are pure-prompt skills with no external dependencies: drop the folder in and they work.
 
 The exception is **fetch-anything**, which drives real tools. It degrades gracefully — it checks each one and skips any that's missing — so it does something useful with nothing installed, but the ladder is only as good as the rungs you give it. For the full thing:
 

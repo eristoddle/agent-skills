@@ -71,9 +71,11 @@ A skill version of the [Verbalized Sampling](https://www.verbalized-sampling.com
 
 ## Requirements
 
-Four of these are pure-prompt skills with no external dependencies: drop the folder in and they work.
+Three of these are pure-prompt skills with no external dependencies: drop the folder in and they work (**living-plan**, **modular-skill-creator**, **verbalized-sampling**).
 
-The exception is **fetch-anything**, which drives real tools. It degrades gracefully — it checks each one and skips any that's missing — so it does something useful with nothing installed, but the ladder is only as good as the rungs you give it. For the full thing:
+**skill-hardener** ships two Python scripts (standard library only, so `python3` is all you need) that read Claude Code session transcripts from `~/.claude/projects`.
+
+The other exception is **fetch-anything**, which drives real tools. It degrades gracefully — it checks each one and skips any that's missing — so it does something useful with nothing installed, but the ladder is only as good as the rungs you give it. For the full thing:
 
 - **defuddle** — rung 1, clean article extraction to markdown, no browser. [kepano/defuddle](https://github.com/kepano/defuddle): `npm install -g defuddle` (or let the skill run it on demand with `npx defuddle parse <url>`).
 - **crawl4ai** — rung 2, the stealth-browser workhorse where most of the real success rate lives. [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai): `pip install crawl4ai && crawl4ai-setup`.
@@ -92,7 +94,7 @@ Two more tools sit *below* the ladder, in the debug step that only runs after al
 
 ## Compatibility
 
-Everything here follows the open `SKILL.md` standard, so the same folder works unmodified across the tools above. Nothing is Claude-Code-specific.
+Everything here follows the open `SKILL.md` standard, so the same folder loads unmodified across the tools above. Two things lean toward Claude Code: **skill-hardener** mines Claude Code's transcript format, so it only has material to work with there, and two skills mention Claude Code conventions: **modular-skill-creator** uses `AskUserQuestion` and **living-plan** looks in `.claude/agents/` (it also checks for the tool's own agent directory), which other tools will treat as plain instructions or substitute with their own equivalent.
 
 ## License
 

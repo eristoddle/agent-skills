@@ -45,6 +45,12 @@ Turns a known URL into clean markdown, and refuses to accept "this page can't be
 
 **Reach for it when:** a page blocks you, a plain fetch returns junk, or you need a known URL turned into usable content while you're in the middle of something else.
 
+### [ebook-research](./skills/ebook-research)
+
+Researches a topic against your own ebook library instead of the web, for the cases where a real author spent 300 pages on what a blog post covers in 800 words. It drives a local [Recoll](https://www.recoll.org) index through a four-level ladder: which books cover the subject, where inside the book, the actual prose, and then a cited synthesis. It never quotes a search snippet, because snippets are ~40-character fragments that misquote the author. All output goes through a bundled stdlib-only Python script that caps what it prints and caches full extractions to disk, so a 600KB PDF can't blow up your context. It also knows its limits: for anything current (releases, versions, news) it sends you to the web, and if your library has nothing good on a topic it says so instead of stretching a weak book into a citation.
+
+**Reach for it when:** you want depth rather than recency: philosophy, craft, history, psychology, "the theory behind X", or a real source to back up a claim.
+
 ### [living-plan](./skills/living-plan)
 
 Owns the whole lifecycle of a project's planning docs: a hot, lean `PLAN.md` that's cheap enough to carry every session, a `TASKS.md` handoff contract, and an implementer agent that works the queue. It detects which state your project is in and routes to one of five actions. Four of them reshape what's already there — **scaffold** a fresh project, **adopt** the missing pieces into one that already half-does this, **rebalance** a bloated plan by relocating cooled material (old session logs, settled decisions, futures, reference) into linked `docs/` files and leaving one-line pointers behind, **evict** the finished task queues out of a `TASKS.md` that's quietly become an append-only log. The fifth, **grill**, is different in kind: it interviews you round by round until the design tree has actually been visited, and writes the answers into the decision record. That's the one that fixes the real failure — a decision record that records nothing, because scaffolding a project asks "what is this?" once and then never asks again. Greenfield now runs grill first, so the plan is born populated. It's portable across projects and tolerant of naming variance (`TASKS.md` vs `TASK.md`, `CLAUDE.md` vs `AGENTS.md`), every mutating step is propose-then-confirm with a manifest, and the process itself lazy-loads out of `workflows/` so the planning agent stays light. Formerly named `plan-rebalance`; that name still routes here.
@@ -73,9 +79,11 @@ A skill version of the [Verbalized Sampling](https://www.verbalized-sampling.com
 
 Three of these are pure-prompt skills with no external dependencies: drop the folder in and they work (**living-plan**, **modular-skill-creator**, **verbalized-sampling**).
 
+**ebook-research** needs [Recoll](https://www.recoll.org) installed and an index built over your ebook folder (macOS DMG or `apt install recoll` on Linux; indexing a big library is slow, so run `recollindex` yourself). Its script is stdlib-only Python.
+
 **skill-hardener** ships two Python scripts (standard library only, so `python3` is all you need) that read Claude Code session transcripts from `~/.claude/projects`.
 
-The other exception is **fetch-anything**, which drives real tools. It degrades gracefully — it checks each one and skips any that's missing — so it does something useful with nothing installed, but the ladder is only as good as the rungs you give it. For the full thing:
+The last exception is **fetch-anything**, which drives real tools. It degrades gracefully — it checks each one and skips any that's missing — so it does something useful with nothing installed, but the ladder is only as good as the rungs you give it. For the full thing:
 
 - **defuddle** — rung 1, clean article extraction to markdown, no browser. [kepano/defuddle](https://github.com/kepano/defuddle): `npm install -g defuddle` (or let the skill run it on demand with `npx defuddle parse <url>`).
 - **crawl4ai** — rung 2, the stealth-browser workhorse where most of the real success rate lives. [unclecode/crawl4ai](https://github.com/unclecode/crawl4ai): `pip install crawl4ai && crawl4ai-setup`.

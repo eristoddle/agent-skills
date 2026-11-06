@@ -2,6 +2,15 @@
 
 Given the confirmed skill spec from design-modular-skill.md, generate the `SKILL.md` router file. Read `references/router-patterns.md` to get the correct routing template for the chosen pattern before writing.
 
+## Contents
+
+- Step 1 — Read the Router Pattern Template
+- Step 2 — Build the Frontmatter
+- Step 3 — Write `<essential_principles>`
+- Step 4 — Write `<intake>`
+- Step 5 — Write `<instructions>`
+- Step 6 — Final Router Checks
+
 ---
 
 ## Step 1 — Read the Router Pattern Template
@@ -101,7 +110,7 @@ For stage-pipelines, number the stages and show the handoff chain:
 
 ### Reference Materials section
 
-List every reference file with a one-line "read when…" description:
+List **every** reference file in the spec with a one-line "read when…" description — including ones only a single workflow uses. This list is what keeps references one level deep: a file named only inside a workflow is two hops from the router and gets previewed with `head` instead of read. If the spec has a reference no workflow and no router line points at, ask the user whether to drop it.
 ```markdown
 - `references/<file>.md` — [what it contains; when to read it]
 ```
@@ -122,6 +131,7 @@ Before writing the file:
 2. Verify zero multi-step procedure prose appears in the router body.
 3. Verify the description field is 50-100 words and lists at least 4 trigger phrases.
 4. Verify no `allowed-tools` field is present.
+5. Verify every reference file in the spec appears in the Reference Materials section.
 
 Write the SKILL.md file to the confirmed save path.
 

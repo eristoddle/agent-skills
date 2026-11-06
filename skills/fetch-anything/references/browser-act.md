@@ -6,6 +6,17 @@ proxy support, network/HAR capture, and human-in-the-loop assist. It is the most
 capable tool in the ladder and the most heavyweight — only reach for it after
 defuddle, webfetch, crawl4ai, and playwright-cli have all failed.
 
+## Contents
+
+- What it offers (relevant to fetching)
+- Data & safety posture
+- How to use it at this rung
+  - Step 0 — Mandatory bootstrap (do NOT skip, do NOT truncate)
+  - Step 1 — Cheap path: stealth-extract (no session, no confirmation)
+  - Step 2 — Escalate inside browser-act (ONLY with user confirmation)
+- Failure → fall through
+- Reference
+
 ⚠️ **UNTESTED in this skill.** It was added because it *should* defeat pages the
 proven rungs can't (hard bot walls, captcha gates, login-walled JS apps). If it
 misbehaves, log the result and fall through to `workflows/debug-research.md`.

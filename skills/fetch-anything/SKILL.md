@@ -51,9 +51,7 @@ Read `workflows/debug-research.md` with the URL and the full error log. It diagn
 
 ## One-time setup: firecrawl (rung 3)
 
-Rung 3 needs a Firecrawl account and the **CLI, not the MCP server**. The free tier is
-1,000 credits/month (no card), which is far more than this skill will ever burn — sign up
-at https://firecrawl.link/stephan-miller.
+Rung 3 needs the **CLI, not the MCP server**:
 
 ```bash
 npm install -g firecrawl-cli

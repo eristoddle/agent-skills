@@ -3,6 +3,18 @@
 Exact invocations for each rung of the ladder, and the signal patterns that mean a rung
 **failed** and you must climb. Read by `fetch-ladder.md` and `debug-research.md`.
 
+## Contents
+
+- Bounded output — applies to every rung
+- Rung 1 — defuddle (internalized)
+- Rung 2 — crawl4ai (stealth browser) — highest success rate
+- Rung 3 — firecrawl (paid API backstop)
+  - Setup (one-time)
+  - Gotcha: `firecrawl config` misreports env-var auth
+  - Usage
+- Failure signals — when to climb
+- Error-log format
+
 Ladder: **defuddle → crawl4ai → firecrawl**. Everything below the horizontal break near
 the bottom is the debug-research toolbox, not a rung.
 
@@ -87,9 +99,6 @@ captcha is structural — climb instead of retrying.
 Hosted scraping API with its own proxy pool and rendering infra. **CLI, not MCP.**
 
 ### Setup (one-time)
-
-Account + API key: https://firecrawl.link/stephan-miller — the free tier is 1,000
-credits/month, which comfortably covers this rung's usage.
 
 ```bash
 npm install -g firecrawl-cli

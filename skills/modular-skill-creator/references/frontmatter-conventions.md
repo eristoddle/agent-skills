@@ -2,6 +2,13 @@
 
 Only the fields that appear in the user's actual skills. Do not add fields not on this list — especially `allowed-tools`, which is not part of this user's convention.
 
+## Contents
+
+- Required Fields
+- Optional Fields
+- Fields NOT Used Here
+- Example: Complete Frontmatter
+
 ---
 
 ## Required Fields
@@ -31,11 +38,11 @@ Only the fields that appear in the user's actual skills. Do not add fields not o
 ## Optional Fields
 
 ### `model`
-- Type: string — a specific Claude model ID
+- Type: string — a model alias: `haiku`, `sonnet`, or `opus`
 - Use when: the skill benefits from a specific model (e.g., haiku for autonomous loops)
-- Example: `model: claude-haiku-4-5`
+- Example: `model: haiku`
 - Do NOT add unless the spec calls for it. Most skills should inherit the session model.
-- Current model IDs: `claude-haiku-4-5-20251001`, `claude-sonnet-4-6`, `claude-opus-4-7`
+- Use the alias, never a dated model ID. Aliases track the latest version; a pinned ID goes stale and has to be hunted down later.
 
 ### `version`
 - Type: string — semver without `v` prefix
@@ -89,7 +96,7 @@ name: my-autonomous-skill
 description: |
   Autonomous loop that does X. Trigger when user says "run X", "check X", or "verify X".
   Called directly or from another skill. Do NOT trigger for interactive editing tasks.
-model: claude-haiku-4-5-20251001
+model: haiku
 ---
 ```
 

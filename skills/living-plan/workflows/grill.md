@@ -5,6 +5,18 @@ Interview the user until the design tree has been **visited**. This is the only 
 `Decisions`, `Open questions`, and `Parking lot` sections that `scaffold` otherwise creates
 empty, and it is the only mechanism that ever moves an item *out* of those cold containers.
 
+## Contents
+
+- When it runs
+- Modes
+- Step 1 — Seed the tree (Mode B; never start blank)
+- Step 2 — Compute the frontier
+- Step 3 — Ask the round
+- Step 4 — Dispose and record, at every round boundary
+- Step 5 — Propose promotions
+- Step 6 — Stop
+- Invariants
+
 Absorbed from the `grilling` technique, adapted to this skill's containers: grilling ends at a
 shared understanding held in the conversation; here that understanding lands in the docs and
 survives the session.

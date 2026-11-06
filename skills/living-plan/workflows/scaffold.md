@@ -44,7 +44,15 @@ Infer language/build/test commands from the repo where possible; ask only if unc
 ## Step 2 — Emit boilerplate (from `templates/`, with substitutions)
 
 Fill the template placeholders (`{{PROJECT}}`, `{{TASK_DOC}}`, `{{CONDUCTOR}}`,
-`{{TEST_CMD}}`, etc.) with interview answers, then write:
+`{{TEST_CMD}}`, `{{AGENT}}`, `{{MODEL}}`, `{{MODEL_LABEL}}`, etc.) with interview answers,
+then write:
+
+**`{{MODEL}}` is not optional and must never be dropped.** It carries Q3's answer (default
+`sonnet`) into the agent's frontmatter, and a `model:` line that is missing — not merely
+unfilled — silently inherits the *host session's* model, so the implementer runs on the
+expensive model it exists to avoid. That failure is invisible: the agent works fine, it just
+bills like the planning thread. Verify after writing: `grep '^model:' <agent-file>` must
+return a real model name, never `{{MODEL}}` and never nothing.
 
 - `<planning-doc>` ← `templates/PLAN.template.md` (Overview filled, the `docs/` pointer
   header, the foundational-flag + rebalance-threshold notes). **If a grill preceded this**,

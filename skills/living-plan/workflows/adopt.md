@@ -32,7 +32,15 @@ names substituted:
 - Missing **conductor blurb** → append `CLAUDE-blurb.template.md` to the existing conductor
   (append, never rewrite the file).
 - Missing **agent(s)** → write each missing catalog agent into the agent dir. For the
-  implementer, use `templates/agents/implementer.template.md`.
+  implementer, use `templates/agents/implementer.template.md`, and **fill every placeholder**
+  — `{{AGENT}}`, `{{PROJECT}}`, `{{TASK_DOC}}`, `{{MODEL}}`, `{{MODEL_LABEL}}`, `{{TEST_CMD}}`.
+  Ask for the model if it isn't obvious; default `sonnet`. **A missing `model:` line is worse
+  than an unfilled one** — it silently inherits the host session's model, so the implementer
+  runs on the expensive model it exists to avoid, and nothing about the agent looks wrong.
+  Verify: `grep '^model:' <agent-file>` must return a real model name.
+- **Agent present but no `model:` line** → this is its own drift finding, not a "nothing
+  missing." Report it and offer to add one; check the existing agents even when the agent dir
+  looks complete.
 - Missing **docs/ tree** → create the folders + seed `docs/rebalance-log.md` `## Config`
   with the discovered names + threshold.
 

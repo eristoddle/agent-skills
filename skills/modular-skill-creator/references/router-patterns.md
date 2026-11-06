@@ -2,6 +2,13 @@
 
 Three minimal template patterns for the `<intake>` and `<instructions>` sections of a modular skill router. Use the one that matches the spec's routing pattern. Copy the relevant sections into scaffold-router.md.
 
+## Contents
+
+- Pattern 1: Menu-Driven
+- Pattern 2: Input-Shape Detection
+- Pattern 3: Stage-Pipeline
+- Hybrid Notes
+
 ---
 
 ## Pattern 1: Menu-Driven

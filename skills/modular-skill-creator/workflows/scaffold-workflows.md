@@ -2,6 +2,13 @@
 
 Generate each `workflows/<name>.md` file declared in the skill spec. Also scaffold any `references/<name>.md` files that need to be created.
 
+## Contents
+
+- Step 1 — Generate Each Workflow File
+- Step 2 — Scaffold Reference Files
+- Step 3 — Check Structure
+- Step 4 — Report File Manifest
+
 ---
 
 ## Step 1 — Generate Each Workflow File
@@ -54,6 +61,18 @@ For multi-pass workflows (like ct-humanizer's full-humanize.md), use `## Pass N`
 - State file write actions explicitly: "Write the transformed article back to the file path." / "Do NOT write to the file in this step."
 - End each step with what it produced (display to user? write to disk? pass to next step?)
 
+### Contents block (files over 100 lines)
+
+If the finished workflow file runs over 100 lines, add a `## Contents` block directly under the header description, listing each `## Step` / `## Pass` heading in order:
+```markdown
+## Contents
+
+- Step 1 — <name>
+- Step 2 — <name>
+- Done
+```
+Count after the file is written, not from the spec — a file that grows past 100 lines during scaffolding still needs one.
+
 ### Done Criteria
 ```markdown
 ## Done
@@ -70,7 +89,7 @@ This workflow is complete when:
 For each reference file in the spec:
 
 1. Create `references/<filename>.md`
-2. Write a header and a brief table of contents or structure outline
+2. Write a header and a one-sentence description. If the file will run over 100 lines, add a `## Contents` block under the description listing its sections (same shape as the workflow Contents block above)
 3. Add placeholder content with clear `[FILL IN: ...]` markers for any data the user must supply (e.g., word lists, example content, lookup tables)
 4. If the reference type is a standard pattern (word blacklist, claim-type lookup table, template library), scaffold a realistic structure with a few example entries and a note that the user should expand it
 
@@ -95,7 +114,16 @@ Reference file structure:
 
 ---
 
-## Step 3 — Report File Manifest
+## Step 3 — Check Structure
+
+Before reporting, verify on disk:
+
+1. Run `wc -l` on every file in `workflows/` and `references/`. Any file over 100 lines without a `## Contents` block gets one now.
+2. Every file in `references/` is named in SKILL.md's Reference Materials list. Add a line for any that is missing.
+
+---
+
+## Step 4 — Report File Manifest
 
 After writing all files, show the user a manifest:
 

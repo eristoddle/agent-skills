@@ -4,6 +4,20 @@ For a project whose `TASKS.md` has become an **append-only log**: the queue disc
 working (pieces get checked, finished work gets collapsed under a `[tag]`), but nothing ever
 *leaves*, so the file grows without bound and stale entries survive because nobody re-reads it.
 
+## Contents
+
+- The rule
+- What stays, always
+- What goes
+- The two carve-outs (do these or the archive eats them)
+- Steps
+  - 1. Map the file before reading it whole
+  - 2. Find the stale contradictions
+  - 3. Propose the manifest
+  - 4. Move mechanically, not by retyping
+  - 5. Rewrite the task doc
+  - 6. Wire it up so it doesn't regress
+
 This is the third stage the collapse rule usually forgets: **check → collapse → evict.**
 
 Propose-then-confirm, like every other workflow here. Never relocate without showing a manifest.

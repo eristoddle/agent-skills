@@ -4,6 +4,15 @@ Generic escalation for any URL with no registered custom handler. Three rungs:
 **defuddle → crawl4ai → firecrawl**, stopping at the first that returns real content.
 On total failure, hands off to debug-research.
 
+## Contents
+
+- Step 1 — Rung 1: defuddle
+- Step 2 — Rung 2: crawl4ai (stealth browser) — the workhorse
+- Step 3 — Rung 3: firecrawl (paid API backstop)
+- Step 4 — Deliver
+- Step 5 — Escalate to debug-research
+- Done
+
 **Inputs:** a URL; optionally an extraction hint ("just the comments", "the price table").
 **Prerequisites:** none for rungs 1–2. Rung 3 needs `firecrawl` installed + an API key.
 

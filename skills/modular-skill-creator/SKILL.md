@@ -13,14 +13,16 @@ Every modular skill has three layers:
 
 2. **Workflows (`workflows/*.md`)** — loaded on demand when the router decides which branch to execute. Each file is fully self-contained: it states its own inputs, prerequisites, steps, outputs, and done criteria.
 
-3. **References (`references/*.md`)** — single-purpose data files (blacklists, templates, taxonomies, examples). Loaded by workflows when needed. Never contain procedural logic.
+3. **References (`references/*.md`)** — single-purpose data files (blacklists, templates, taxonomies, examples). Loaded by workflows when needed. Never contain procedural logic. Every reference is also named in SKILL.md's Reference Materials list, so it is reachable one level from the router — a workflow may point at it too, but never as the only path.
 
 ## Core Rules
 
 1. **Router stays thin.** If you catch yourself writing multi-step procedure logic in SKILL.md, it belongs in a workflow file.
 2. **Each workflow owns its scope.** A workflow file should not need to read another workflow file to complete its job — unless the skill is explicitly a stage-pipeline where step N hands off to step N+1.
 3. **References are data, not logic.** A reference file contains lookup tables, lists, templates, or examples. It never says "now do X."
-4. **Always ask project vs global.** Per the user's global preference, never assume a save location — always ask before writing files.
+4. **References are one level deep.** Every file in `references/` is named in SKILL.md. A file reachable only through a workflow gets previewed with `head`, never read in full, and its tail is silently lost.
+5. **Long files carry a `## Contents` block.** Any workflow or reference file over 100 lines opens with a `## Contents` block listing its sections, so a partial read still shows the whole scope.
+6. **Always ask project vs global.** Per the user's global preference, never assume a save location — always ask before writing files.
 
 </essential_principles>
 
@@ -69,6 +71,8 @@ Before reporting done:
 - [ ] Router SKILL.md is under ~150 lines
 - [ ] Router contains zero step-by-step procedure prose
 - [ ] Every workflow file is self-contained (inputs, steps, outputs, done criteria all present)
+- [ ] Every file in `references/` is named in SKILL.md's Reference Materials list (none reachable only through a workflow)
+- [ ] Every workflow and reference file over 100 lines opens with a `## Contents` block
 - [ ] No `allowed-tools` field in frontmatter (not part of this user's convention)
 - [ ] Description field is pushy and trigger-rich (50-100 words, lists trigger phrases)
 - [ ] Save location was confirmed with user before any files were written

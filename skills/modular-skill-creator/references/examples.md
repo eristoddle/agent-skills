@@ -27,7 +27,7 @@ Two reference skills that exemplify the modular pattern at its best. Read these 
 - Router intake is 4 lines: "run immediately; if called from another skill, no prompting; if direct, ask for path; go to verify-claims.md."
 - `<instructions>` block is a 4-step numbered loop (EXTRACT → FIX → RE-VERIFY → CLEAR or LOOP). Each step names one workflow file.
 - `workflows/verify-claims.md` — extracts all claims, fetches primary sources, produces JSON report. Standalone: could run without knowing anything else about the skill.
-- Pinned to `claude-haiku-4-5` — illustrates when model pinning makes sense (high-iteration autonomous loop).
+- Pinned to `model: sonnet` — illustrates when model pinning makes sense (judgment-heavy verification loop). Note the alias, not a dated model ID.
 - The "Wiring Into Other Skills" section in `<instructions>` shows how to make a skill callable as a silent post-step from other skills.
 
 **Best for illustrating:** input-shape routing (no user choice needed); pinning a model for performance; designing a skill to be called from other skills; looping workflows (loop back to step 2 until done).

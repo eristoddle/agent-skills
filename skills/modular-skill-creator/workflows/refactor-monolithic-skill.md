@@ -2,6 +2,17 @@
 
 Convert an existing single-file SKILL.md into the modular router + workflows/ + references/ architecture. The goal is to hollow out SKILL.md to routing-only while preserving all behavior.
 
+## Contents
+
+- Step 1 — Read the Existing Skill
+- Step 2 — Identify the Seams
+- Step 3 — Design the New Structure
+- Step 4 — Extract Workflow Files
+- Step 5 — Extract Reference Files
+- Step 6 — Rewrite the Router
+- Step 7 — Verify the Refactor
+- Step 8 — Report
+
 ---
 
 ## Step 1 — Read the Existing Skill
@@ -73,6 +84,7 @@ For each section being extracted:
    - Wrap existing steps in `## Step N — NAME` sections if they aren't already
    - Add `**Output:**` line at the end of each step if missing
    - Add `## Done` checklist at end
+   - If the result is over 100 lines, add a `## Contents` block under the description listing each step
 3. Update any cross-references: if the extracted content said "see below" or "as described above," replace with explicit file references
 
 ---
@@ -83,7 +95,9 @@ For each data blob being extracted:
 
 1. Create `references/<filename>.md`
 2. Copy the data verbatim — do not summarize or restructure content, only add a header and brief description
-3. If the blob is a list or table, keep it as-is; add a table of contents if over 50 lines
+3. If the blob is a list or table, keep it as-is
+4. If the file is over 100 lines, add a `## Contents` block under the description listing its sections
+5. Note it for the router's Reference Materials list in Step 6 — every extracted reference gets named there, even if only one workflow uses it
 
 ---
 
@@ -94,7 +108,7 @@ Rewrite SKILL.md in place:
 1. **Frontmatter** — keep as-is unless the description needs improvement (see scaffold-router.md Step 2 for description rules)
 2. **`<essential_principles>`** — keep or trim to core rules only; anything procedural moves to workflows
 3. **`<intake>`** — keep routing logic; replace any embedded step-by-step instructions with "Read `workflows/<file>.md`"
-4. **`<instructions>`** — replace each extracted section with a one-line routing rule: "If [condition], read `workflows/<file>.md`." Add a `## Reference Materials` section listing all extracted reference files.
+4. **`<instructions>`** — replace each extracted section with a one-line routing rule: "If [condition], read `workflows/<file>.md`." Add a `## Reference Materials` section listing **every** reference file — extracted ones and any that already existed. A reference named only inside a workflow is two levels deep and will be previewed, not read.
 5. **Remove** all extracted content from SKILL.md
 
 ---
@@ -111,8 +125,12 @@ Behavior check — read through the new router and ask: "If Claude reads only SK
 
 If the answer to any is "no," fix it before reporting done.
 
+Structure check — run `wc -l` on every file in `workflows/` and `references/`:
+- Any file over 100 lines without a `## Contents` block → add one.
+- Any file in `references/` not named in SKILL.md → add it to Reference Materials.
+
 ---
 
 ## Step 8 — Report
 
-Show the user the final manifest (same format as scaffold-workflows.md Step 3) and note what was extracted where.
+Show the user the final manifest (same format as scaffold-workflows.md Step 4) and note what was extracted where.

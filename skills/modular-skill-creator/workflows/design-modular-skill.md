@@ -2,6 +2,15 @@
 
 Interview the user to produce a complete skill specification. This spec is consumed by scaffold-router.md and scaffold-workflows.md in the next steps.
 
+## Contents
+
+- Step 1 — Gather Core Identity
+- Step 2 — Design the Workflow Branches
+- Step 3 — Design the Reference Files
+- Step 4 — Choose the Routing Pattern
+- Step 5 — Decide on Model Pin
+- Step 6 — Output the Spec
+
 ---
 
 ## Step 1 — Gather Core Identity
@@ -84,8 +93,9 @@ Record the chosen pattern.
 Ask: "Does this skill need a specific model pinned, or should it run on whatever model is active?"
 
 Guidelines to share:
-- **Pin `claude-haiku-4-5`** for autonomous loops that run many iterations (like fact-checker). Faster and cheaper for mechanical verification work.
-- **Pin `claude-sonnet-4-6`** for complex reasoning, writing quality, or judgment-heavy tasks.
+- **Pin `haiku`** for autonomous loops that run many iterations or mechanical checks (like brief-check, link-auditor). Faster and cheaper.
+- **Pin `sonnet`** for complex reasoning, writing quality, or judgment-heavy tasks (like fact-checker).
+- Pin an alias, never a dated model ID — an alias tracks the latest version, a hardcoded ID goes stale.
 - **No pin (default)** for most interactive skills that benefit from the current session model.
 
 ---

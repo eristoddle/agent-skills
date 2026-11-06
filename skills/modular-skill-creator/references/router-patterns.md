@@ -15,7 +15,7 @@ Three minimal template patterns for the `<intake>` and `<instructions>` sections
 
 **When to use:** The user should pick which workflow to run. The choice is meaningful and non-obvious from the input alone. Best for: interactive editing skills with distinct modes, tools where the user controls the scope.
 
-**Reference skill:** `ct-humanizer`
+**Example archetype:** a text-cleanup skill with Full and Quick-scan modes
 
 ### Intake block
 
@@ -59,7 +59,7 @@ Read `workflows/<file-c>.md`. [One sentence on what it does.]
 
 **When to use:** The correct workflow is determinable from the input itself — no need to ask. Best for: autonomous loops, skills called from other skills, pipelines with obvious input signals (file path present/absent, content type, prior step output).
 
-**Reference skill:** `ct-fact-checker`
+**Example archetype:** a fact-checking skill that runs a verify loop and can be called by other skills
 
 ### Intake block
 

@@ -38,7 +38,7 @@ Numbered steps, each with:
 - Numbered sub-instructions
 - Explicit output: what gets written, displayed, or passed on
 
-Use this shape (from ct-fact-checker's verify-claims.md pattern):
+Use this shape (the pattern a verify-claims workflow uses):
 ```markdown
 ## Step N — STEP NAME
 
@@ -53,7 +53,7 @@ Use this shape (from ct-fact-checker's verify-claims.md pattern):
 ---
 ```
 
-For multi-pass workflows (like ct-humanizer's full-humanize.md), use `## Pass N` instead of `## Step N`.
+For multi-pass workflows (like a full-cleanup workflow), use `## Pass N` instead of `## Step N`.
 
 **Rules for workflow steps:**
 - Write the steps procedurally — the executor reads this file and follows it literally

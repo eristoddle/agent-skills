@@ -117,7 +117,7 @@ List **every** reference file in the spec with a one-line "read when…" descrip
 
 ### Quality Checklist section (optional but recommended)
 
-Add a short done-criteria checklist at the end of the instructions block. These are the conditions under which the skill can report completion. Model on the ct-humanizer "Quality Standards" section.
+Add a short done-criteria checklist at the end of the instructions block. These are the conditions under which the skill can report completion. Model it on a short "Quality Standards" checklist.
 
 Close with `</instructions>`.
 

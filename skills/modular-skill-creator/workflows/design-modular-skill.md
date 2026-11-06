@@ -17,13 +17,13 @@ Interview the user to produce a complete skill specification. This spec is consu
 
 Use AskUserQuestion to collect:
 
-1. **Skill name** — kebab-case, e.g. `ct-humanizer`, `my-research-tool`. Confirm it doesn't collide with an existing skill at the chosen save path.
+1. **Skill name** — kebab-case, e.g. `text-cleanup`, `my-research-tool`. Confirm it doesn't collide with an existing skill at the chosen save path.
 
 2. **One-sentence purpose** — what does this skill do? This becomes the opening line of the description field.
 
 3. **Primary trigger phrases** — what would the user say to invoke this skill? List 4-6 phrases. These go into the description to combat undertriggering. Examples: "humanize an article", "remove AI writing", "scan for AI patterns".
 
-4. **Anti-trigger** — what should NOT trigger this skill (to prevent collision with related skills)? Example: ct-humanizer anti-trigger is "fiction" (that's ct-fiction-humanizer's domain).
+4. **Anti-trigger** — what should NOT trigger this skill (to prevent collision with related skills)? Example: a nonfiction text-cleanup skill's anti-trigger is "fiction" (a separate skill's domain).
 
 ---
 
@@ -76,9 +76,9 @@ Ask: "How should the router decide which workflow to run?"
 
 Present three options (read `references/router-patterns.md` for the full templates):
 
-1. **Menu-driven** — router asks the user to pick from named options via AskUserQuestion. Best for: interactive skills, skills with clearly distinct modes, skills the user invokes by choice. Example: ct-humanizer (Full humanize vs. Quick scan).
+1. **Menu-driven** — router asks the user to pick from named options via AskUserQuestion. Best for: interactive skills, skills with clearly distinct modes, skills the user invokes by choice. Example: a text-cleanup skill (Full cleanup vs. Quick scan).
 
-2. **Input-shape detection** — router inspects the input (file present? content type? called from another skill?) and selects a workflow automatically, no questions asked. Best for: autonomous loops, skills called from other skills, skills with obvious input signals. Example: ct-fact-checker.
+2. **Input-shape detection** — router inspects the input (file present? content type? called from another skill?) and selects a workflow automatically, no questions asked. Best for: autonomous loops, skills called from other skills, skills with obvious input signals. Example: a fact-checking loop skill.
 
 3. **Stage-pipeline** — router runs workflows in a fixed sequence: A → B → C. Each workflow ends with an explicit handoff. Best for: skills with mandatory sequential steps where every invocation runs all stages.
 

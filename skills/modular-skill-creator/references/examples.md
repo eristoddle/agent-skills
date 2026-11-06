@@ -1,12 +1,10 @@
 # Canonical Examples
 
-Two reference skills that exemplify the modular pattern at its best. Read these when you need a concrete model to sanity-check generated output or explain the pattern to the user.
+Two archetypes (described from real skills) that exemplify the modular pattern at its best. Read these when you need a concrete model to sanity-check generated output or explain the pattern to the user.
 
 ---
 
-## ct-humanizer — Menu-Driven Router
-
-**Path:** `~/.config/skillshare/skills/ct-humanizer/`
+## Text-cleanup skill — Menu-Driven Router
 
 **Why it's canonical:**
 - Router is ~100 lines. Intake uses AskUserQuestion to present two named options (Full humanize, Quick scan). Routing section maps each option to one workflow file in two lines.
@@ -19,9 +17,7 @@ Two reference skills that exemplify the modular pattern at its best. Read these 
 
 ---
 
-## ct-fact-checker — Input-Shape / Autonomous Loop Router
-
-**Path:** `~/.config/skillshare/skills/ct-fact-checker/`
+## Fact-checking skill — Input-Shape / Autonomous Loop Router
 
 **Why it's canonical:**
 - Router intake is 4 lines: "run immediately; if called from another skill, no prompting; if direct, ask for path; go to verify-claims.md."

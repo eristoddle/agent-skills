@@ -63,7 +63,7 @@ This skill drives the CLI directly.
 
 The key comes from `FIRECRAWL_API_KEY` in the environment (or `firecrawl login --api-key fc-...`,
 which stores it in the CLI's own config). If the rung reports a missing key, tell the user
-the permanent fish command — `set -Ux FIRECRAWL_API_KEY fc-...` — not a session-only `set -x`.
+how to set it permanently in their shell (e.g. `export FIRECRAWL_API_KEY=fc-...` in their shell profile; `set -Ux FIRECRAWL_API_KEY fc-...` for fish), not a session-only export.
 
 ## Reference Materials
 

@@ -16,7 +16,7 @@ Only the fields that appear in the user's actual skills. Do not add fields not o
 ### `name`
 - Type: string
 - Format: kebab-case, matches the directory name exactly
-- Example: `name: ct-humanizer`
+- Example: `name: text-cleanup`
 
 ### `description`
 - Type: string (plain) or YAML block scalar (pipe `|`)

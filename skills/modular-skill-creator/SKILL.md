@@ -31,8 +31,8 @@ Every modular skill has three layers:
 **Before anything else, ask where to save the output skill** using AskUserQuestion:
 
 > "Where should the new skill be saved?"
-> - **Project-level** — `./.claude/skills/<skill-name>/` in the current repo (preferred ~75% of the time)
-> - **Skillshare global** — `~/.config/skillshare/skills/<skill-name>/` (syncs to all your AI tools via skillshare)
+> - **Project-level** — `./.claude/skills/<skill-name>/` in the current repo 
+> - **User-level** — your global skills directory, e.g. `~/.claude/skills/<skill-name>/` (or wherever your skill manager keeps shared skills)
 
 Then ask what the user wants to do:
 

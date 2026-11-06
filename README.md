@@ -51,6 +51,12 @@ Researches a topic against your own ebook library instead of the web, for the ca
 
 **Reach for it when:** you want depth rather than recency: philosophy, craft, history, psychology, "the theory behind X", or a real source to back up a claim.
 
+### [angle-board](./skills/angle-board)
+
+Turns one piece of raw material — a coding session, a research file, a topic, a pile of notes, or a single how-to — into a pyramid of distinct article angles instead of one obvious post. It walks a five-rung altitude ladder (weeds → tutorial → story → practice → thesis), gives each angle its own lens and a named reader in a specific moment, rates the evidence behind it, then designates a pillar and spokes that each carry a "don't restate" constraint so four posts off one session don't cannibalize each other. The rule that makes it honest: altitude has an evidence requirement. One session can only support the bottom of the pyramid, so a thesis needs three independent proof points from across your notes, and an empty rung is reported as empty instead of padded with a confident-sounding take. A second mode inverts one *how* into many *whys* (payoff, actor, signal) to fan a single technique into use-case posts. The board is saved as a plain markdown checklist, and the skill stops at briefs; it never writes the article.
+
+**Reach for it when:** you finish a project or research pass and suspect there's more than one post in it, or you want a backlog of article ideas with real evidence behind each.
+
 ### [living-plan](./skills/living-plan)
 
 Owns the whole lifecycle of a project's planning docs: a hot, lean `PLAN.md` that's cheap enough to carry every session, a `TASKS.md` handoff contract, and an implementer agent that works the queue. It detects which state your project is in and routes to one of five actions. Four of them reshape what's already there — **scaffold** a fresh project, **adopt** the missing pieces into one that already half-does this, **rebalance** a bloated plan by relocating cooled material (old session logs, settled decisions, futures, reference) into linked `docs/` files and leaving one-line pointers behind, **evict** the finished task queues out of a `TASKS.md` that's quietly become an append-only log. The fifth, **grill**, is different in kind: it interviews you round by round until the design tree has actually been visited, and writes the answers into the decision record. That's the one that fixes the real failure — a decision record that records nothing, because scaffolding a project asks "what is this?" once and then never asks again. Greenfield now runs grill first, so the plan is born populated. It's portable across projects and tolerant of naming variance (`TASKS.md` vs `TASK.md`, `CLAUDE.md` vs `AGENTS.md`), every mutating step is propose-then-confirm with a manifest, and the process itself lazy-loads out of `workflows/` so the planning agent stays light. Formerly named `plan-rebalance`; that name still routes here. For how I use it in practice, see [Two Files and a Skill: How I Plan AI Coding Projects Without a Framework](https://www.stephanmiller.com/two-files-and-a-skill-how-i-plan-ai-coding-projects-without-a-framework/).
@@ -77,7 +83,7 @@ A skill version of the [Verbalized Sampling](https://www.verbalized-sampling.com
 
 ## Requirements
 
-Three of these are pure-prompt skills with no external dependencies: drop the folder in and they work (**living-plan**, **modular-skill-creator**, **verbalized-sampling**).
+Four of these are pure-prompt skills with no external dependencies: drop the folder in and they work (**angle-board**, **living-plan**, **modular-skill-creator**, **verbalized-sampling**).
 
 **ebook-research** needs [Recoll](https://www.recoll.org) installed and an index built over your ebook folder (macOS DMG or `apt install recoll` on Linux; indexing a big library is slow, so run `recollindex` yourself). Its script is stdlib-only Python.
 
